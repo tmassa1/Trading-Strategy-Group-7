@@ -1,0 +1,31 @@
+import pandas as pd
+
+# File path to your Excel file
+file_path = r"C:\Users\tmass\Downloads\Book1.xlsx"
+
+# Read the Excel file into a DataFrame
+data = pd.read_excel(file_path)
+
+# Assuming the return values are in column '(Close-Open)/Open' and the "Yes" flag is in column 'Yes/No'
+# Replace these with your actual column names if they differ
+returns_col = '(Close-Open)/Open'  # Replace with the actual column name for returns
+flag_col = 'Yes/No'               # Replace with the actual column name for "Yes" flags
+
+# Identify the rows where 'Yes' occurs
+yes_indices = data[data[flag_col] == 'Yes'].index
+
+# Initialize a list to store cumulative returns for the 3 days after each "Yes"
+three_day_returns = []
+
+# Calculate the cumulative returns for the 3 days after each "Yes"
+for i in yes_indices:
+    if i + 3 < len(data):  # Ensure there are at least 3 days of data after the "Yes"
+        cumulative_return = sum(data.loc[i + 1:i + 3, returns_col])
+        three_day_returns.append(cumulative_return)
+
+# Calculate the total cumulative return for all 3-day windows
+total_three_day_return = sum(three_day_returns)
+
+# Print the results
+print(f"Total return for the 3 days after each 'Yes': {total_three_day_return:.2%}")
+print(f"Number of 'Yes': {len(three_day_returns)}")
