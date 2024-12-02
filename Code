@@ -30,6 +30,7 @@ min_return = min(daily_returns) if daily_returns else 0
 max_return = max(daily_returns) if daily_returns else 0
 std_dev = (sum([(x - mean_return) ** 2 for x in daily_returns]) / (len(daily_returns) - 1)) ** 0.5 if len(daily_returns) > 1 else 0
 
+
 # Print the results
 print(f"Total return for the 3 days after each 'Yes': {sum(daily_returns):.2%}")
 print(f"Mean return: {mean_return:.2%}")
